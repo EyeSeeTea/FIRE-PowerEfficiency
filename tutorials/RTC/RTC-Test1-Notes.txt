@@ -1,0 +1,77 @@
+RTC-Test1
+---------
+
+References:
+  1. http://tronixstuff.com/2014/12/01/tutorial-using-ds1307-and-ds3231-real-time-clock-modules-with-arduino/
+  2. http://www.maximintegrated.com/en/products/digital/real-time-clocks/DS3231.html
+  3. http://datasheets.maximintegrated.com/en/ds/DS3231.pdf
+
+Creative Commons Licence. Author T. Gillett
+
+1. Introduction
+---------------
+This example demonstrates the operation of the Real Time Clock module based 
+on the Maxim DS3231 chip. It is adapted from the Tronix Labs tutorial in Ref[1]
+
+The sketch (RTC-Test1.ino) allows you to set the time and data on the RTC module and display 
+the data in the Serial Monitor. It is designed to run on an Arduino UNO, MEGA 
+or similar board.
+
+The RTC module communicates with the Arduino board using the I2C bus.
+
+As well as the "RTC-Test1.ino" file, there is a second file "functions.h" 
+which contains the code for all the functions for reading and writing data
+to the RTC chip via the I2C bus, and for displaying the data via the Serial
+port.
+
+2. Setup
+--------
+Connect the RTC module to the Arduino board using the GND, 3.3V (VCC), SDA and
+SCL pins. 
+
+On the Arduino Uno or compatible boards, these pins are A4 and A5 for 
+SDA (data) and SCL (clock).
+
+On the Arduino Mega board the pins are D20 and D21 for SDA (data) and 
+SCL (clock).
+
+The Arduino serial port outputs messages showing the progress of the setup and
+data output. This can be monitored using the Serial Monitor in the Tools menu 
+of the Arduino IDE.
+
+Before loading the sketch to the Arduino board, edit the definitions at the top
+of the sketch to enable the data setting functions as required, as well as the
+data for the times and date. 
+
+3. Operating Parameters
+-----------------------
+At the top of the sketch code there are a series of definitions for controlling
+the operation of the data setting operations. Set these definitions to "true" 
+"false" to enable/disable the individual operations.
+
+Next is a set of definitions for the data to be used in the time/date setting
+operations. Set these definitions to the required values.
+
+4. Software Operation
+---------------------
+
+4.1 setup()
+-----------
+The setup() function first initialises the I2C bus and Serial port.
+
+It then calls the various functions to write data to the RTC module via 
+the I2C bus if these have been enabled in the definitions.
+
+Finally it calls functions to read data from the RTC module and displays this 
+data as time and date via the Serial port, which can be viewed using the 
+Serial Monitor facility in the Arduino IDE Tools menu.
+
+4.2 loop()
+----------
+The loop() function is not used for any purpose in this sketch.
+
+4.3 functions.h
+---------------
+This file contains the code for the data "set", "get" and "display" functions.
+
+------------------------------------------------------------------------------
