@@ -1,5 +1,7 @@
 // rf95_server
+
 // Example sketch showing how to create a simple messaging server
+// Creative Commons licence. Author T. Gillett
 // Based on RadioHead library class RH_RF95 (rf95)
 // Ref: http://www.airspayce.com/mikem/arduino/RadioHead/
 
@@ -20,6 +22,9 @@
 // the details of individual client requests. The LED will be turned ON
 // when a request is received and OFF when the response has been sent.
 
+/*******************************/
+
+// Define modem configurations
 // Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on. Default medium range
 #define MODE1 rf95.Bw125Cr45Sf128 
 // Bw = 500 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on. Fast+short range

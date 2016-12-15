@@ -1,5 +1,7 @@
 // rf95_client
+
 // Example sketch showing how to create a simple messaging client
+// Creative Commons licence. Author T. Gillett
 // Based on RadioHead library class RH_RF95 (rf95)
 // Ref: http://www.airspayce.com/mikem/arduino/RadioHead/
 
@@ -18,7 +20,9 @@
 // The serial port outputs messages showing the startup process and 
 // the details of individual server responses.
 
+/*******************************/
 
+// Define modem configurations
 // Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on. Default medium range
 #define MODE1 rf95.Bw125Cr45Sf128 
 // Bw = 500 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on. Fast+short range
