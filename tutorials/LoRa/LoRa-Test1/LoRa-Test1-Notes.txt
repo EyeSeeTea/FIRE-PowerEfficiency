@@ -5,6 +5,8 @@ References:
   https://www.lora-alliance.org/what-is-lora/technology
   http://www.semtech.com/wireless-rf/lora.html
 
+Creative Commons Licence. Author T. Gillett
+
 1. Introduction
 ---------------
 This example demonstrates simple messaging communication between two LoRa 
@@ -67,7 +69,6 @@ will be displayed in the monitor window showing the operation of the software.
 
 3. Operating Parameters
 -----------------------
-
 At the top of each .ino file there are a number of parameter definitions that 
 determine the operation of the device. The parameters for both devices need to 
 be set to the same values to allow them to communicate with each other.
@@ -108,7 +109,6 @@ the same signal level across the link.
 
 4.1 setup()
 -----------
-
 In each file there is a setup() function that does the following:
 
  - Initialise the serial port
@@ -117,7 +117,6 @@ In each file there is a setup() function that does the following:
 
 4.2 Client loop() 
 -----------------
-
 The loop() function on the client device sends a request to the server.
 The request payload is simply the string "Request from Client".
 
@@ -133,7 +132,6 @@ before sending the next request.
 
 4.3 Server loop()
 -----------------
-
 The loop() function on the server device checks to see the LoRa chip is available, 
 and then checks to see if a request has been received. 
 If so, the LED is switched ON.
