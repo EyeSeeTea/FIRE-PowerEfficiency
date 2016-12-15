@@ -28,7 +28,7 @@ port.
 2. Setup
 --------
 Connect the RTC module to the Arduino board using the GND, 3.3V (VCC), SDA and
-SCL pins. 
+SCL pins. See Ref[2] for connection diagram.
 
 On the Arduino Uno or compatible boards, these pins are A4 and A5 for 
 SDA (data) and SCL (clock).
@@ -58,13 +58,18 @@ operations. Set these definitions to the required values.
 
 4.1 setup()
 -----------
-The setup() function first initialises the I2C bus and Serial port.
+The setup() function does the following:
 
-It then calls the various functions to write data to the RTC module via 
-the I2C bus if these have been enabled in the definitions.
+- Initialises the I2C bus and Serial port.
 
-Finally it calls functions to read data from the RTC module and displays this 
-data as time and date via the Serial port, which can be viewed using the 
+- Displays the current time/date settings in the RTC.
+
+- Calls the various functions to write data to the RTC module via the I2C bus 
+if these have been enabled in the definitions.
+
+- Displays the new time/date settings in the RTC.
+
+The RTC data is displayed via the Serial port, which can be viewed using the 
 Serial Monitor facility in the Arduino IDE Tools menu.
 
 4.2 loop()
@@ -74,5 +79,32 @@ The loop() function is not used for any purpose in this sketch.
 4.3 functions.h
 ---------------
 This file contains the code for the data "set", "get" and "display" functions.
+
+5. Sample Output
+----------------
+Below is a sample output taken from the Serial Monitor window in the Arduino IDE
+showing the original time/date data, followed by the Set operations, then the 
+new time/date data.
+ 
+
+RTC data : 17:28:15 15/12/2016 Day of week: Thursday
+RTC Alarm1 : 12:05:00
+RTC Alarm2 : 13:05
+---------------
+Set Time, Day, Date 
+Set Time
+Set Date
+Set Alarm1 time
+Set Alarm2 time
+---------------
+RTC data : 5:58:42 16/12/2016 Day of week: Friday
+RTC Date : 16/12/16
+RTC Time : 5:58:42
+
+RTC Alarm1 : 12:05:00
+RTC Alarm2 : 13:05
+
+Setup complete
+
 
 ------------------------------------------------------------------------------

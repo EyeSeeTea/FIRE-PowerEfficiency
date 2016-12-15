@@ -147,6 +147,58 @@ After a short period (e.g 200mSec) the LED is switched OFF.
 In operation, the LED will flash each time a request is received, and the Serial
 Monitor will display the request payload string and the signal strength.
 
+5. Sample Output
+----------------
+Below is a sample output taken from the Serial Monitor window in the Arduino IDE
+
+5.1 Client
+----------
+This shows the Client device initialising then sending requests to the server,
+and the responses from the server.
+
+
+Serial available.
+
+Start Client setup.
+Init rf95 success
+Set Freq, TxPower and Mode
+End setup.
+Start loop
+
+
+Send request to rf95_server
+Got reply: Response from server
+RSSI: -22
+
+Send request to rf95_server
+Got reply: Response from server
+RSSI: -22
+
+
+5.2 Server
+----------
+This shows the Server device initialising, then receiving requests from 
+the Client and sending responses.
+
+
+Serial available.
+
+Start Server setup.
+Init rf95 success
+Set Freq, TxPower and Mode
+End setup.
+Start loop
+
+
+Got request: Request from Client
+RSSI: -22
+Sent a reply
+
+Got request: Request from Client
+RSSI: -22
+Sent a reply
+
+
 -----------------------------------------------------------------------------
 
 
