@@ -3,8 +3,9 @@ RTC-Test1
 
 References:
   1. http://tronixstuff.com/2014/12/01/tutorial-using-ds1307-and-ds3231-real-time-clock-modules-with-arduino/
-  2. http://www.maximintegrated.com/en/products/digital/real-time-clocks/DS3231.html
-  3. http://datasheets.maximintegrated.com/en/ds/DS3231.pdf
+  2. http://howtomechatronics.com/tutorials/arduino/arduino-ds3231-real-time-clock-tutorial
+  3. http://www.maximintegrated.com/en/products/digital/real-time-clocks/DS3231.html
+  4. http://datasheets.maximintegrated.com/en/ds/DS3231.pdf
 
 Creative Commons Licence. Author T. Gillett
 
