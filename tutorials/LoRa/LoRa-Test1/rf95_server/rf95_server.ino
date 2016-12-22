@@ -10,7 +10,10 @@
 // level messaging abilities.
 
 // This example is designed to run on an Arduino board such at the UNO,
-// fitted with a LoRa shield. There is no special configuration required.
+// fitted with a LoRa shield such as the Dragino devices:
+//    Ref: http://www.dragino.com/products/lora/item/102-lora-shield.html
+//         http://www.dragino.com/products/lora/item/108-lora-gps-shield.html
+// There is no special configuration required.
 // An LED may be fitted to the nominated I/O pin to indicate operation.
 
 // This server device will respond to requests from similar LoRa 
