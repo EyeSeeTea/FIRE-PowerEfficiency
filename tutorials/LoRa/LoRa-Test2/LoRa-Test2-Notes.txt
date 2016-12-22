@@ -1,0 +1,217 @@
+LoRa-Test1
+----------
+
+References:
+  https://www.lora-alliance.org/what-is-lora/technology
+  http://www.semtech.com/wireless-rf/lora.html
+
+Creative Commons Licence. Author T. Gillett
+
+1. Introduction
+---------------
+This example demonstrates simple messaging communication between two LoRa 
+shields fitted to Arduino UNO, Mega, or similar boards. One LoRa shield acts
+as a server, responding to requests from the other shield acting as a client.
+
+The client shield also has a GPS module and data from this is included in the
+message to the server.
+
+The example is useful for doing simple surveys of a link as it does a 
+request/response every few seconds, flashing an LED on the server and displaying
+the payload and signal strength using the serial port on both devices.
+
+There are two Arduino sketches - one for the server and the other for the client.
+
+The sketches use the RadioHead library Driver class RH_RF95 (rf95)
+Refs: 
+    http://www.airspayce.com/mikem/arduino/RadioHead/
+    http://www.airspayce.com/mikem/arduino/RadioHead/annotated.html
+    http://www.airspayce.com/mikem/arduino/RadioHead/classRH__RF95.html
+
+Driver classes are provided in the library for a range of radio devices.
+The RH_RF95 library works with Semtech SX1276/77/78/79 and similar LoRa capable
+radios. It supports Long Range (LoRa) with spread spectrum frequency hopping,
+large payloads etc.
+
+The client sketch uses the TinyGPS library for processing the NEMA data stream
+from the GPS module.
+Ref: http://arduiniana.org/libraries/tinygps/
+
+A Software Serial port is used to connect to the GPS module using the designated 
+Tx/Rx pins.
+
+2. Setup
+--------
+The example code is designed to run on Arduino boards such as the UNO, Mega or 
+similar, fitted with LoRa and LoRa/GPS shields such as the Dragino devices:
+Ref:
+  http://www.dragino.com/products/lora/item/102-lora-shield.html
+  http://www.dragino.com/products/lora/item/108-lora-gps-shield.html
+ 
+Communication between the Arduino and LoRa chip utilises the SPI bus.
+
+Communication with the GPS module uses a software serial port.
+The GPS serial data Tx/Rx lines need to be connected to the designated 
+I/O pins used for the Software Serial port (e.g. I/O Pins 3 and 4)
+
+The Arduino hardware Serial port outputs messages showing the startup process  
+and the details of individual requests/responses. This can be monitored using 
+the Serial Monitor in the Tools menu of the Arduino IDE.
+
+On the Server device, an LED and resistor may be connected between the designated 
+I/O Pin (defined by "LEDPIN" - Pin 7 by default) and GND. The software will 
+light the LED to indicate the request/response operation.
+
+Ensure that the correct Board and Serial Port are selected (Tools/Board and 
+Tools/Port), then start the Serial Monitor (Tools/Serial Monitor). Messages 
+will be displayed in the monitor window showing the operation of the software.
+
+3. Operating Parameters
+-----------------------
+At the top of each .ino file there are a number of parameter definitions that 
+determine the operation of the device. The parameters for both devices need to 
+be set to the same values to allow them to communicate with each other.
+
+3.1 Modem Configuration
+--- -------------------
+Three modes are defined in the rf95 library as follows:
+
+  // Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on. Default medium range
+  #define MODE1 rf95.Bw125Cr45Sf128 
+  // Bw = 500 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on. Fast+short range
+  #define MODE2 rf95.Bw500Cr45Sf128); 
+  // Bw = 31.25 kHz, Cr = 4/8, Sf = 512chips/symbol, CRC on. Slow+long range
+  #define MODE3 (rf95.Bw31_25Cr48Sf512);
+
+Set the required mode in this line:
+  #define MODE       MODE1   // Set modem configuration - Mode 1, 2 or 3.
+
+3.2 Frequency
+-------------
+Set the required frequency in this line:
+  #define FREQUENCY  915.0   // Frequency in MHz
+
+Ensure that the frequency is within the operating range of the particular LoRa
+device that you have (e.g 915, 868, or 433 MHz) 
+Typical devices will operate +/- 1MHz satisfactorily.
+
+3.3 Tx Power
+------------
+Set the required transmit power in this line:
+  #define TXPOWER    23      // Set to 5 - 23 dBm
+
+It is usual to set the same power level for both devices so that they receive
+the same signal level across the link.
+
+4. Software Operation
+---------------------
+
+4.1 setup()
+-----------
+In each file there is a setup() function that does the following:
+
+ - Initialise the serial ports
+ - Initialise the LoRa chip
+ - Set the operating parameters for the LoRa chip
+
+4.2 Client loop() 
+-----------------
+The loop() function on the client device sends a request to the server.
+The request message payload is built up from the GPS data using the TinyGPS object.
+
+The client then waits for a response, up to the Timeout period (e.g. 3000mSec).
+
+If a response is received then the response payload is output on the serial 
+port for display in the Serial Monitor window.
+
+If no response is received, then a warning message is output.
+
+After receiving a response, the client waits for a period (e.g. 2000msec)
+before sending the next request.
+
+4.3 Server loop()
+-----------------
+The loop() function on the server device checks to see the LoRa chip is available, 
+and then checks to see if a request has been received. 
+If so, the LED is switched ON.
+
+The payload of the request is then output to the serial port for display in the 
+Serial Monitor window, along with the received signal strength (RSSI).
+
+A response is then sent, with a payload consisting of the string 
+"Response from server".
+
+After a short period (e.g 200mSec) the LED is switched OFF.
+
+In operation, the LED will flash each time a request is received, and the Serial
+Monitor will display the request payload string and the signal strength.
+
+5. Sample Output
+----------------
+Below is a sample output taken from the Serial Monitor window in the Arduino IDE
+
+5.1 Client
+----------
+This shows the Client device initialising then sending requests to the server,
+and the responses from the server.
+
+
+LoRa-test2_client
+
+Init rf95 success
+Set Freq, TxPower and Mode
+TinyGPS library v. 13
+
+End setup. Starting loop
+
+New GPS data available
+
+Data:  LAT=-27.382743  LON=153.020370  SPEED=-1.0000   AGE= 493  SATS=8  PREC=128
+
+Sending to rf95_server:  Lat:-27.382744 Lon:153.020370 Sats:8 Prec:128
+
+Got reply: Response from server
+RSSI: -30
+New GPS data available
+New GPS data available
+New GPS data available
+
+Data:  LAT=-27.382743  LON=153.020370  SPEED=0.1183   AGE= 389  SATS=8  PREC=128
+
+Sending to rf95_server:  Lat:-27.382744 Lon:153.020370 Sats:8 Prec:128
+
+Got reply: Response from server
+RSSI: -30
+
+
+
+5.2 Server
+----------
+This shows the Server device initialising, then receiving requests from 
+the Client and sending responses.
+
+
+Serial available.
+
+Start Server setup.
+Init rf95 success
+Set Freq, TxPower and Mode
+End setup.
+Start loop
+
+
+Got request: Lat:-27.382795 Lon:153.020360 Sats:8 Prec:128
+RSSI: -22
+Sent a reply
+
+Got request: Lat:-27.382792 Lon:153.020360 Sats:8 Prec:128
+RSSI: -22
+Sent a reply
+
+
+
+-----------------------------------------------------------------------------
+
+
+
+
