@@ -1,7 +1,7 @@
 // rf95_client
 
 // Example sketch showing how to create a simple messaging client
-// Creative Commons licence. Author T. Gillett
+// Creative Commons BY SA licence. Author T. Gillett
 // Based on RadioHead library class RH_RF95 (rf95)
 // Ref: http://www.airspayce.com/mikem/arduino/RadioHead/
 

@@ -1,7 +1,7 @@
 // rf95_server
 
 // Example sketch showing how to create a simple messaging server
-// Creative Commons licence. Author T. Gillett
+// Creative Commons BY SA licence. Author T. Gillett
 // Based on RadioHead library class RH_RF95 (rf95)
 // Ref: http://www.airspayce.com/mikem/arduino/RadioHead/
 
@@ -96,7 +96,7 @@ void loop()
       Serial.println(rf95.lastRssi(), DEC); // Output the signal strength
       
       // Send a reply
-      uint8_t data[] = "Response from server"; // Send this response string
+      uint8_t data[] = "Forward Power request"; // Send this response string
       rf95.send(data, sizeof(data));
       rf95.waitPacketSent();
       Serial.println("Sent a reply");
