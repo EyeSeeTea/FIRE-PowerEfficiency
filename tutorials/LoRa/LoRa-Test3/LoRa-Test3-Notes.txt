@@ -1,0 +1,178 @@
+LoRa-Test2
+----------
+
+References:
+  https://www.lora-alliance.org/what-is-lora/technology
+  http://www.semtech.com/wireless-rf/lora.html
+
+Creative Commons Licence. Author T. Gillett
+
+1. Introduction
+---------------
+
+This sketch demonstrates a simple peer to peer message propagating network 
+using LoRa devices.
+
+The sketch can be loaded onto a number of UNO/LoRa devices to form a simple 
+peer to peer network for propagating messages anonymously.
+
+Each node has two buttons - Power Up and Power Down.
+
+If you operate one of the buttons, the node sets the local power state and 
+sends out a suitable message request to other nodes.
+
+When a node receives a message request, it waits for a random period then 
+forwards the message request on, and then sets the local power state as requested.
+
+The random wait period is intended to avoid collisions from two nodes receiving 
+and forwarding the same request.
+
+After a node sends a message, it waits for a 'dead time' period (default 5 secs) 
+before listening for any new messages. This will prevent a node receiving its own 
+request as long as the period is long enough to allow the message to propagate 
+across the network. It is anticipated that only a few 'hops' will be required.
+
+The example is intended to demonstrate message propagation across a geographically 
+distributed network where nodes can not receive transmissions from all other nodes, 
+and so a repeating function is required to propagate messages to all nodes.
+
+The sketches use the RadioHead library Driver class RH_RF95 (rf95)
+Refs: 
+    http://www.airspayce.com/mikem/arduino/RadioHead/
+    http://www.airspayce.com/mikem/arduino/RadioHead/annotated.html
+    http://www.airspayce.com/mikem/arduino/RadioHead/classRH__RF95.html
+
+Driver classes are provided in the library for a range of radio devices.
+The RH_RF95 library works with Semtech SX1276/77/78/79 and similar LoRa capable
+radios. It supports Long Range (LoRa) with spread spectrum frequency hopping,
+large payloads etc.
+
+
+2. Setup
+--------
+The example code is designed to run on Arduino boards such as the UNO, Mega or 
+similar, fitted with LoRa and LoRa/GPS shields such as the Dragino devices:
+Ref:
+  http://www.dragino.com/products/lora/item/102-lora-shield.html
+  http://www.dragino.com/products/lora/item/108-lora-gps-shield.html
+ 
+Communication between the Arduino and LoRa chip utilises the SPI bus.
+
+The Arduino hardware Serial port outputs messages showing the startup process  
+and the details of individual requests/responses. This can be monitored using 
+the Serial Monitor in the Tools menu of the Arduino IDE.
+
+An LED and resistor may be connected between the designated 
+I/O Pins defined by "LEDPIN" and "POWERPIN" and GND. The software will 
+light the LEDs to indicate the request/response operation and the local power state.
+
+Momentary switch buttons are connected to the I/O Pins defined by PWRONPIN and
+PWROFFPIN.
+
+Ensure that the correct Board and Serial Port are selected (Tools/Board and 
+Tools/Port), then start the Serial Monitor (Tools/Serial Monitor). Messages 
+will be displayed in the monitor window showing the operation of the software.
+
+3. Operating Parameters
+-----------------------
+At the top of each .ino file there are a number of parameter definitions that 
+determine the operation of the device. The parameters for both devices need to 
+be set to the same values to allow them to communicate with each other.
+
+3.1 Modem Configuration
+--- -------------------
+Three modes are defined in the rf95 library as follows:
+
+  // Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on. Default medium range
+  #define MODE1 rf95.Bw125Cr45Sf128 
+  // Bw = 500 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on. Fast+short range
+  #define MODE2 rf95.Bw500Cr45Sf128); 
+  // Bw = 31.25 kHz, Cr = 4/8, Sf = 512chips/symbol, CRC on. Slow+long range
+  #define MODE3 (rf95.Bw31_25Cr48Sf512);
+
+Set the required mode in this line:
+  #define MODE       MODE1   // Set modem configuration - Mode 1, 2 or 3.
+
+3.2 Frequency
+-------------
+Set the required frequency in this line:
+  #define FREQUENCY  915.0   // Frequency in MHz
+
+Ensure that the frequency is within the operating range of the particular LoRa
+device that you have (e.g 915, 868, or 433 MHz) 
+Typical devices will operate +/- 1MHz satisfactorily.
+
+3.3 Tx Power
+------------
+Set the required transmit power in this line:
+  #define TXPOWER    10      // Set to 5 - 23 dBm
+
+It is usual to set the same power level for both devices so that they receive
+the same signal level across the link.
+
+4. Software Operation
+---------------------
+
+4.1 Setup
+-----------
+The setup() function does the following:
+
+ - Initialise the serial ports
+ - Initialise the LoRa chip
+ - Set the operating parameters for the LoRa chip
+
+4.2 Loop 
+-----------------
+The loop() function does the following:
+
+ - Check the state of the switches.
+   - If a button is pressed, a message is sent and the local power status set.
+ - Look for an incoming message
+  - If a message is received, it is forwarded on, and the local power status set.
+
+5. Sample Output
+----------------
+Below is a sample output taken from the Serial Monitor window in the Arduino IDE
+
+
+LoRa Test3 Node.
+
+Start Server setup.
+Init rf95 success
+Set Freq, TxPower and Mode
+End setup. Starting loop
+
+Pwr Flag: 0
+
+Pwr ON Btn                   // Pwr ON Button operated
+Pwr Flag: 1
+Send data:  PReq_0           // Pwr ON request sent
+Finished send and wait period
+
+Pwr OFF Btn                  // Pwr OFF Button operated
+Pwr Flag: 0
+Send data:  PDwn_0           // Pwr OFF request sent
+Finished send and wait period
+
+
+Recd: PReq_0   RSSI: -32     // Pwr ON request received
+Rand: 1820                   // Random wait mSecs
+Send data:  PReq_1           // Pwr ON request forwarded
+Finished send and wait period
+
+Pwr Flag: 1                  // Local power set to ON
+
+
+Recd: PDwn_0   RSSI: -26     // Pwr OFF request received
+Rand: 1430                   // Random wait mSecs
+Send data:  PDwn_1           // Pwr OFF request forwarded
+Finished send and wait period
+
+Pwr Flag: 0                  // Local power set to OFF
+
+
+-----------------------------------------------------------------------------
+
+
+
+
