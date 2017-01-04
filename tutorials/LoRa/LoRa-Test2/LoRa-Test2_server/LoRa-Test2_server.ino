@@ -1,7 +1,7 @@
 // LoRa-Test2_server
 
 // Example sketch showing how to create a simple messaging server
-// Creative Commons licence. Author T. Gillett
+// Creative Commons BY SA licence. Author T. Gillett
 
 // Based on RadioHead library class RH_RF95 (rf95)
 // Ref: http://www.airspayce.com/mikem/arduino/RadioHead/
@@ -61,7 +61,7 @@ void setup()
      delay(100);
   }
 
-  Serial.println("Serial available.\n");
+  Serial.println("LoRa-Test2_server.\n");
   
   Serial.println("Start Server setup.");
   

@@ -4,7 +4,7 @@ LoRa-Test2_client
  This sketch shows a simple messaging client sending data from a GPS module
  to the server device.
 
-Creative Commons licence. Author T. Gillett
+Creative Commons BY SA licence. Author T. Gillett
 
 Based on the following libraries:
 RadioHead library class RH_RF95 (rf95)
