@@ -1,7 +1,8 @@
 // RTC-Test1.ino
 
 // Example sketch to set time/date/alarm on DS3231 RTC Module
-// Creative Commons licence. Author T. Gillett
+
+// Creative Commons BY SA licence. Author T. Gillett
 // Adapted from Tronix Labs  http://tronixstuff.com/
 
 // This example is designed to run on an Arduino board such as the UNO or MEGA
@@ -21,13 +22,13 @@
 #define SETALRM2  true	// Set Alarm2
 
 // Set the required time/date and daily alarm times to be set in the RTC.
-#define HH  05	// Hours
-#define MM  52	// Minutes
+#define HH  18	// Hours
+#define MM  06	// Minutes
 #define SS  02	// Seconds
-#define DD  16 	// Date
+#define DD  29 	// Date
 #define MO  12	// Month
 #define YY  16	// Year (20yy)
-#define DAY Fr	// Day of Week 
+#define DAY Th	// Day of Week 
 
 #define AL1_HH 12 // Alarm1 Hours
 #define AL1_MM 05 // Alarm1 Minutes
@@ -50,13 +51,15 @@
 
 #include "Wire.h"								// I2C library
 
-#include "functions.h"
+#include "functions.h"					// Include file containing the time/date functions
 
 
 void setup()
 {
   Wire.begin();        // Initialise I2C
   Serial.begin(9600);  // Initialise Serial Port
+
+  Serial.print("RTC-Test1 \n\n");
 
   /* Display the current data */
   Serial.print("RTC data : ");
@@ -65,7 +68,9 @@ void setup()
   display_alarm1(); // Display time
   Serial.print("\RTC Alarm2 : ");
   display_alarm2(); // Display time
-  Serial.println("\n---------------");
+  Serial.println("\n---------------\n");
+
+  Serial.println("Data setting operations:\n");
 
   /* Set time, day, date */
   if(SETTDD)
@@ -103,7 +108,7 @@ void setup()
   }
 
   /* Display the time and date */
-  Serial.println("---------------");
+  Serial.println("---------------\n");
   
   Serial.print("RTC data : ");
   displayTime();  // display the real-time clock data on the Serial Monitor
@@ -125,6 +130,6 @@ void setup()
 
 void loop()
 {
-	while(1); // Wait forever
+  while(1);
 }
 
